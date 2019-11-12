@@ -39,6 +39,7 @@ def get_lat_long(place_name):
     """
     parsed = {'key' : MAPQUEST_API_KEY, 'location' : place_name}
     parsed_url = urllib.parse.urlencode(parsed)
+    # print (parsed_url)
     url = f'http://www.mapquestapi.com/geocoding/v1/address?{parsed_url}'
     # print (url)
     f = urllib.request.urlopen(url)
@@ -47,7 +48,7 @@ def get_lat_long(place_name):
     # pprint(response_data)
     return response_data["results"][0]["locations"][0]['displayLatLng']
 
-# get_lat_long('231 Forest St Wellesley, MA')
+# print (get_lat_long('231 Forest St Wellesley, MA'))
 
 def get_nearest_station(latitude, longitude):
     """
@@ -56,27 +57,41 @@ def get_nearest_station(latitude, longitude):
     See https://api-v3.mbta.com/docs/swagger/index.html#/Stop/ApiWeb_StopController_index for URL
     formatting requirements for the 'GET /stops' API.
     """
-    url = f'{MBTA_BASE_URL}?api_key={MBTA_API_KEY}&filter[latitude]={latitude}&filter[longitude]={longitude}&sort=distance'
+    url = f'{MBTA_BASE_URL}?api_key={MBTA_API_KEY}&filter[latitude]={latitude}&filter[longitude]={longitude}&filter[radius]=1&sort=distance&page[limit]=1'
     f = urllib.request.urlopen(url)
     response_text = f.read().decode('utf-8')
     response_data = json.loads(response_text)
-    print(response_data)
+    # pprint(response_data)
+    name, wheel_chair = response_data["data"][0]["attributes"]['name'], response_data["data"][0]["attributes"]['wheelchair_boarding']
+    if wheel_chair == 2:
+        wheel_chair = 'Inaccessible'
+    elif wheel_chair == 1:
+        wheel_chair = 'Accessible'
+    else:
+        wheel_chair = 'No Information'
+    return name, wheel_chair
 
-get_nearest_station(42.299,-71.262)
+# print(get_nearest_station(42.299,-71.262))
+
 
 def find_stop_near(place_name):
     """
     Given a place name or address, return the nearest MBTA stop and whether it is wheelchair accessible.
     """
-    pass
+    dictionary = get_lat_long(place_name)
+    latitude = dictionary['lat']
+    longitude = dictionary['lng']
+    return get_nearest_station(latitude,longitude)
 
 
 def main():
     """
     You can all the functions here
     """
-    pass
-
-
+    # print(get_json(url))
+    print(get_lat_long('Babson College'))
+    print(get_nearest_station(42.29761,-71.26176))
+    print(find_stop_near('Babson College'))
+    
 if __name__ == '__main__':
     main()
