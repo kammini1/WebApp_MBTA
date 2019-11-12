@@ -64,7 +64,13 @@ def find_stop_near(place_name):
     """
     Given a place name or address, return the nearest MBTA stop and whether it is wheelchair accessible.
     """
+    parsed={'key':MBTA_API_KEY, 'place_name':place_name,'data':response_data, 'station_name':parent_station,'wheelchair_accessible':wheelchair_accessible}
+    parsed_url=urllib.parse.urlencode(parsed)
+    url=f'https://api-v3.mbta.com/docs/swagger/index.html#/Stop/ApiWeb_StopController_index?{parsed_url}'
+    f=urllib.request.urlopen(url)
+    print(response_data["results"][0]["station_name"][0]["wheelchair_accessible"])
 
+find_stop_near(place_name)
 
 def main():
     """
