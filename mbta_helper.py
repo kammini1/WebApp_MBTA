@@ -1,20 +1,33 @@
+import urllib.request
+import urllib.parse
+import json
+from pprint import pprint
+
 # Useful URLs (you need to add the appropriate parameters for your requests)
 MAPQUEST_BASE_URL = "http://open.mapquestapi.com/geocoding/v1/address"
 MBTA_BASE_URL = "https://api-v3.mbta.com/stops"
 
 # Your API KEYS (you need to use your own keys - very long random characters)
-MAPQUEST_API_KEY = ""
-MBTA_API_KEY = ""
-
+MAPQUEST_API_KEY = "aAEdyzcmLAVQ1r4cxhzt5IKM0la4xh6E"
+MBTA_API_KEY = "7e3f9835ebae45728f5f15e18c3da85a"
 
 # A little bit of scaffolding if you want to use it
 
+url = f'http://www.mapquestapi.com/geocoding/v1/address?key={MAPQUEST_API_KEY}&location=Babson%20College'
+
 def get_json(url):
     """
-    Given a properly formatted URL for a JSON web API request, return
+    Given a prop erly formatted URL for a JSON web API request, return
     a Python JSON object containing the response to that request.
     """
-    pass
+    MAPQUEST_API_KEY= 'aAEdyzcmLAVQ1r4cxhzt5IKM0la4xh6E'
+    f = urllib.request.urlopen(url)
+    response_text = f.read().decode('utf-8')
+    response_data = json.loads(response_text)
+    pprint(response_data)
+    return response_data
+
+# print(get_json(url))
 
 
 def get_lat_long(place_name):
@@ -24,8 +37,17 @@ def get_lat_long(place_name):
     See https://developer.mapquest.com/documentation/geocoding-api/address/get/
     for Mapquest Geocoding  API URL formatting requirements.
     """
-    pass
+    parsed = {'key' : MAPQUEST_API_KEY, 'location' : place_name}
+    parsed_url = urllib.parse.urlencode(parsed)
+    url = f'http://www.mapquestapi.com/geocoding/v1/address?{parsed_url}'
+    # print (url)
+    f = urllib.request.urlopen(url)
+    response_text = f.read().decode('utf-8')
+    response_data = json.loads(response_text)
+    # pprint(response_data)
+    return response_data["results"][0]["locations"][0]['displayLatLng']
 
+# get_lat_long('231 Forest St Wellesley, MA')
 
 def get_nearest_station(latitude, longitude):
     """
@@ -34,8 +56,13 @@ def get_nearest_station(latitude, longitude):
     See https://api-v3.mbta.com/docs/swagger/index.html#/Stop/ApiWeb_StopController_index for URL
     formatting requirements for the 'GET /stops' API.
     """
-    pass
+    url = f'{MBTA_BASE_URL}?api_key={MBTA_API_KEY}&filter[latitude]={latitude}&filter[longitude]={longitude}&sort=distance'
+    f = urllib.request.urlopen(url)
+    response_text = f.read().decode('utf-8')
+    response_data = json.loads(response_text)
+    print(response_data)
 
+get_nearest_station(42.299,-71.262)
 
 def find_stop_near(place_name):
     """
