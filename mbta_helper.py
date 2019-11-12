@@ -86,7 +86,7 @@ def find_stop_near(place_name):
 
 def main():
     """
-    You can all the functions here
+    You can put all the functions here
     """
     # print(get_json(url))
     print(get_lat_long('Babson College'))
