@@ -6,6 +6,10 @@
 </head>
 <body>
     <h1>MBTA Helper</h1>
+    <form method="POST" name="MBTAHelper">
+        {% if error %}
+        <p style="color:red">The place you enter is not exist.</p>
+        {% endif %}
     <p>
         Please enter your current location:
     </p>
