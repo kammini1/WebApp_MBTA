@@ -59,7 +59,10 @@ def get_nearest_station(latitude, longitude):
     response_text = f.read().decode('utf-8')
     response_data = json.loads(response_text)
     pprint(response_data)
-    name, wheel_chair = response_data["data"][0]["attributes"]['name'], response_data["data"][0]["attributes"]['wheelchair_boarding']
+    try:
+        name, wheel_chair = response_data["data"][0]["attributes"]['name'], response_data["data"][0]["attributes"]['wheelchair_boarding']
+    except:
+        return "Your location needs to be more specific."
     if wheel_chair == 2:
         wheel_chair = 'Inaccessible'
     elif wheel_chair == 1:
@@ -67,8 +70,6 @@ def get_nearest_station(latitude, longitude):
     else:
         wheel_chair = 'No Information'
     return name, wheel_chair
-
-
 
 def find_stop_near(place_name):
     """
@@ -78,7 +79,6 @@ def find_stop_near(place_name):
     latitude = dictionary['lat']
     longitude = dictionary['lng']
     return get_nearest_station(latitude,longitude)
-
 
 def main():
     """
