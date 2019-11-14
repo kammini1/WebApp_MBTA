@@ -10,16 +10,17 @@
     {% if MBTA_Station %}
       <p>The closest MBTA stop by {{location}} is at {{MBTA_Station}} Station.
       </p>
+      {% if wheelchair == "No Information" %}
+        <p>There is no information on wheelchair accessibility at {{MBTA_Station}} Station. </p>
+      {% else %}
+        <p>The {{MBTA_Station}} Station is wheelchair {{wheelchair}}.</p>
+      {% endif %}
     {% else %}
       <p style="color:red">Sorry. There is no MBTA stop near {{location}}. Be more specific.</p>
       <form>
         <input type="button" value="Go back" onclick="history.back()">
       </form>
     {% endif %}
-    {% if wheelchair == "No Information" %}
-        <p>There is no information on wheelchair accessibility at {{MBTA_Station}} Station. </p>
-    {% else %}
-        <p>The {{MBTA_Station}} Station is wheelchair {{wheelchair}}.</p>
-    {% endif %}
+  
   </body>
 </html>
