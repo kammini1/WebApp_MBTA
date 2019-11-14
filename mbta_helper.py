@@ -27,8 +27,6 @@ def get_json(url):
     pprint(response_data)
     return response_data
 
-# print(get_json(url))
-
 
 def get_lat_long(place_name):
     """
@@ -48,7 +46,6 @@ def get_lat_long(place_name):
     # pprint(response_data)
     return response_data["results"][0]["locations"][0]['displayLatLng']
 
-# print (get_lat_long('231 Forest St Wellesley, MA'))
 
 def get_nearest_station(latitude, longitude):
     """
@@ -61,7 +58,7 @@ def get_nearest_station(latitude, longitude):
     f = urllib.request.urlopen(url)
     response_text = f.read().decode('utf-8')
     response_data = json.loads(response_text)
-    # pprint(response_data)
+    pprint(response_data)
     name, wheel_chair = response_data["data"][0]["attributes"]['name'], response_data["data"][0]["attributes"]['wheelchair_boarding']
     if wheel_chair == 2:
         wheel_chair = 'Inaccessible'
@@ -71,7 +68,6 @@ def get_nearest_station(latitude, longitude):
         wheel_chair = 'No Information'
     return name, wheel_chair
 
-# print(get_nearest_station(42.299,-71.262))
 
 
 def find_stop_near(place_name):
@@ -88,7 +84,7 @@ def main():
     """
     You can put all the functions here
     """
-    # print(get_json(url))
+    print(get_json(url))
     print(get_lat_long('Babson College'))
     print(get_nearest_station(42.29761,-71.26176))
     print(find_stop_near('Babson College'))
