@@ -27,8 +27,6 @@ def get_json(url):
     pprint(response_data)
     return response_data
 
-# print(get_json(url))
-
 
 def get_lat_long(place_name):
     """
@@ -48,7 +46,6 @@ def get_lat_long(place_name):
     # pprint(response_data)
     return response_data["results"][0]["locations"][0]['displayLatLng']
 
-# print (get_lat_long('231 Forest St Wellesley, MA'))
 
 def get_nearest_station(latitude, longitude):
     """
@@ -74,7 +71,6 @@ def get_nearest_station(latitude, longitude):
         wheel_chair = 'No Information'
     return name, wheel_chair
 
-# print(get_nearest_station(42.299,-71.262))
 
 
 def find_stop_near(place_name):
