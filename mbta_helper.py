@@ -54,15 +54,15 @@ def get_nearest_station(latitude, longitude):
     See https://api-v3.mbta.com/docs/swagger/index.html#/Stop/ApiWeb_StopController_index for URL
     formatting requirements for the 'GET /stops' API.
     """
-    url = f'{MBTA_BASE_URL}?api_key={MBTA_API_KEY}&filter[latitude]={latitude}&filter[longitude]={longitude}&filter[radius]=1&sort=distance&page[limit]=1'
+    url = f'{MBTA_BASE_URL}?api_key={MBTA_API_KEY}&filter[latitude]={latitude}&filter[longitude]={longitude}&filter[radius]=2&sort=distance&page[limit]=1'
     f = urllib.request.urlopen(url)
     response_text = f.read().decode('utf-8')
     response_data = json.loads(response_text)
-    pprint(response_data)
+    # pprint(response_data)
     try:
         name, wheel_chair = response_data["data"][0]["attributes"]['name'], response_data["data"][0]["attributes"]['wheelchair_boarding']
     except:
-        return "Your location needs to be more specific."
+        return None, None
     if wheel_chair == 2:
         wheel_chair = 'Inaccessible'
     elif wheel_chair == 1:
