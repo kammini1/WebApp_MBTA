@@ -84,10 +84,10 @@ def main():
     """
     You can put all the functions here
     """
-    print(get_json(url))
-    print(get_lat_long('Babson College'))
-    print(get_nearest_station(42.29761,-71.26176))
-    print(find_stop_near('Babson College'))
+    # print(get_json(url))
+    location = input('Please enter the name of a place:')
+    print(get_lat_long(location))
+    print(find_stop_near(location))
     
 if __name__ == '__main__':
     main()

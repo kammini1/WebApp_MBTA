@@ -5,6 +5,19 @@
     <title>Amazing app to help you find nearest MBTA station</title>
 </head>
 <body>
-
-</body>
+    <h1>MBTA Helper</h1>
+    <form method="POST" name="MBTAHelper">
+        {% if error %}
+        <p style="color:red">The place you enter is not exist.</p>
+        {% endif %}
+    <p>
+        Please enter your current location:
+    </p>
+    <p>
+        <input type="text" size="4" name="location" />
+    </p>
+    <p>
+        <input type="submit" value="Submit" />
+    </p>
+    </body>
 </html>
