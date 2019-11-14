@@ -15,6 +15,8 @@ MBTA_API_KEY = "7e3f9835ebae45728f5f15e18c3da85a"
 
 url = f'http://www.mapquestapi.com/geocoding/v1/address?key={MAPQUEST_API_KEY}&location=Babson%20College'
 
+#We don't really need to print all of the get JSON response data since it contains too much information, most of which is not relevant. We only need the latitude, longitude for a place, in this case, Babson College. 
+
 def get_json(url):
     """
     Given a prop erly formatted URL for a JSON web API request, return
@@ -27,6 +29,7 @@ def get_json(url):
     pprint(response_data)
     return response_data
 
+#displayLatLng command below returns the (lat,long) tuple. 
 
 def get_lat_long(place_name):
     """
@@ -37,13 +40,13 @@ def get_lat_long(place_name):
     """
     parsed = {'key' : MAPQUEST_API_KEY, 'location' : place_name}
     parsed_url = urllib.parse.urlencode(parsed)
-    # print (parsed_url)
+    # print (parsed_url)- just to test if it looks alright
     url = f'http://www.mapquestapi.com/geocoding/v1/address?{parsed_url}'
-    # print (url)
+    # print (url)- to check if it has correct format
     f = urllib.request.urlopen(url)
     response_text = f.read().decode('utf-8')
     response_data = json.loads(response_text)
-    # pprint(response_data)
+    # pprint(response_data)- we don't need to show all the data
     return response_data["results"][0]["locations"][0]['displayLatLng']
 
 
@@ -58,7 +61,7 @@ def get_nearest_station(latitude, longitude):
     f = urllib.request.urlopen(url)
     response_text = f.read().decode('utf-8')
     response_data = json.loads(response_text)
-    # pprint(response_data)
+    # pprint(response_data)- we don't need to display all this data 
     try:
         name, wheel_chair = response_data["data"][0]["attributes"]['name'], response_data["data"][0]["attributes"]['wheelchair_boarding']
     except:
@@ -84,7 +87,7 @@ def main():
     """
     You can put all the functions here
     """
-    # print(get_json(url))
+    # print(get_json(url))- unnecessary data display
     location = input('Please enter the name of a place:')
     print(get_lat_long(location))
     print(find_stop_near(location))
